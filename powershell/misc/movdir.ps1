@@ -26,12 +26,12 @@ if ($testdst -ne $null) {
 				if ($Answer -eq "N") {
 					write-host "Aborting."
 					exit 1			
-					}
+				}
 				else {
 					write-host "Removing existing Junction..."
 					cmd /c rmdir $testdst
-					}
-			}
+				}
+		}
 		else {
 			write-host "Error, $testdst exists and is not a Junction. Aborting."
 			exit 1		
@@ -40,21 +40,17 @@ if ($testdst -ne $null) {
 
 
 if ($src -eq $null -or $dst -eq $null) {
-            Write-host "Folder doesn't exist, aborting" 
-            exit 3
-            }
+    Write-host "Folder doesn't exist, aborting" 
+    exit 3
+    }
 
 [ValidateSet('Y','N')]$Answer = Read-Host "This will move $src to  $destination, continue? (Y/N)"
 
 
 if ($Answer -eq "N") {
-            Write-host "Aborting" 
-            exit 3
-            }
-
-
-
-
+    Write-host "Aborting" 
+    exit 3
+    }
 
 write-host "Moving $src to $destination..."
 

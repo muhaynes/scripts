@@ -10,30 +10,29 @@ connect-viserver -server $server | out-null
 
 $hostsystem = Get-View -ViewType HostSystem -Filter @{"OverallStatus" = "red"}
 $alert=0
-foreach($state in $hostsystem.triggeredAlarmState){
+
+foreach($state in $hostsystem.triggeredAlarmState) {
 	$alarm = Get-View $state.Alarm
 	$name = $hostsystem.Name
 	$alarm = $alarm.info.name
-   if ($state.OverallStatus -eq "red")
-    {
-		write-host "$name has triggered $alarm"
-		$alert=1
-	}
+	if ($state.OverallStatus -eq "red") {
+			write-host "$name has triggered $alarm"
+			$alert=1
+		}
 }
-If ($alert -gt 0){
-		Disconnect-VIServer -Confirm:$false
-		exit 1
-		} 
-		elseif ($error.Count -gt 0)
-    {
+
+if ($alert -gt 0) {
+    Disconnect-VIServer -Confirm:$false
+    exit 1
+	} 
+elseif ($error.Count -gt 0) {
     Write-Output $_;
-      $_="";
-      Disconnect-VIServer -Confirm:$false
-      exit 3;
-    }
-    Else
-    {
-		Write-Host "Everything is good!"
-		Disconnect-VIServer -Confirm:$false
-		exit 0
+    $_="";
+    Disconnect-VIServer -Confirm:$false
+    exit 3;
+	}
+else {
+    Write-Host "Everything is good!"
+    Disconnect-VIServer -Confirm:$false
+    exit 0
     }

@@ -9,27 +9,25 @@ connect-viserver -server $server | out-null
 $alert=0
 
 Get-Cluster | forEach {
-$HA = $_.HAEnabled 
-
-    if ($HA -like "False"){
-    $alert=1
-    $name = $_.name
+    $HA = $_.HAEnabled 
+    if ($HA -like "False") {
+        $alert=1
+        $name = $_.name
     }
 }
 
-if ($alert -gt 0){
+if ($alert -gt 0) {
     Disconnect-VIServer -Confirm:$false
     write-host "HA disabled on $name"
     exit 1
     }
-    elseif ($error.Count -gt 0)
-    {
+    elseif ($error.Count -gt 0) {
     Write-Output $_;
-      $_="";
-      Disconnect-VIServer -Confirm:$false
-      exit 3;
+    $_="";
+    Disconnect-VIServer -Confirm:$false
+    exit 3;
     }
-    else{
+    else {
     Disconnect-VIServer -Confirm:$false
     write-host "HA enabled on all Clusters"
     exit 0
