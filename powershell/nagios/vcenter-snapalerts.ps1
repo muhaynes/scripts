@@ -14,28 +14,24 @@ Get-VM | Get-Snapshot | Select-Object VM,Name,Created,sizeGB | ForEach{
 	$name = $_.Name
 	$created = $_.Created
 	$snapsize = [int]$_.sizeGB
-	
-		if(($created -lt (Get-Date).AddDays(-$days)) -or ($snapsize -gt $gigs))
-		{
-			Write-Host "$vm has a snap named $name which is $snapsize GB created $created. "
-			$alert=1
-		} 
+	if(($created -lt (Get-Date).AddDays(-$days)) -or ($snapsize -gt $gigs)) {
+        Write-Host "$vm has a snap named $name which is $snapsize GB created $created. "
+        $alert=1
+	} 
 }
-If ($alert -gt 0)
-    {	
-		Disconnect-VIServer -Confirm:$false
-		exit 1
-		} 
-		elseif ($error.Count -gt 0)
-    {
+
+if ($alert -gt 0) {	
+    Disconnect-VIServer -Confirm:$false
+    exit 1
+    } 
+    elseif ($error.Count -gt 0) {
     Write-Output $_;
-      $_="";
-      Disconnect-VIServer -Confirm:$false
-      exit 3;
+    $_="";
+    Disconnect-VIServer -Confirm:$false
+    exit 3;
     }
-    Else
-    {
-		Write-Host "Everything is good!"
-		Disconnect-VIServer -Confirm:$false
-		exit 0
+    else {
+    Write-Host "Everything is good!"
+    Disconnect-VIServer -Confirm:$false
+    exit 0
     }

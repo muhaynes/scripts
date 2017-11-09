@@ -31,17 +31,14 @@ if ($cert -eq $null) {
          }
 
      else {
-
        write-host "Existing cert found; using"
        $thumbprint = $cert.Thumbprint
-
      }
 
 
 
 if ($error -ne $null) {
 		write-host $error
-		Disable-WSManCredSSP –Role Server
 		exit 2
 	}
 
@@ -80,9 +77,9 @@ foreach ($site in $sites) {
 					}
 				}
 		else {
-        netsh http delete sslcert hostnameport="${hostname}:443" > $null
-        netsh http add sslcert hostnameport="${hostname}:443" certhash=$thumbprint certstorename=MY appid="$guid"
-        New-WebBinding -name $site.name -Protocol https -HostHeader $hostname -Port 443 -SslFlags 1
+            netsh http delete sslcert hostnameport="${hostname}:443" > $null
+            netsh http add sslcert hostnameport="${hostname}:443" certhash=$thumbprint certstorename=MY appid="$guid"
+            New-WebBinding -name $site.name -Protocol https -HostHeader $hostname -Port 443 -SslFlags 1
 		  }
 		}
     }

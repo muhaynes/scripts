@@ -22,9 +22,9 @@ $volsnaps = ($snapshots).VolumeID | select -uniq
 $missing = $volumes | where {$volsnaps -notcontains $_}
 
 if ($error.Count -gt 0) {
-    Write-Output $_;
-      $_="";
-      exit 3
+	Write-Output $_;
+	$_="";
+	exit 3
     }
 elseif ($missing -ne $null) {
 	write-host "WARNING: No snapshots for $missing"

@@ -41,13 +41,12 @@ if (($CPUQueue -gt $CPUq) -and ($CPUpercent -gt $CPUp)) {
 $alarm = $cpualarm + $memalarm
 $output = $output1 + $output2
 
-if ($error.Count -gt 0)
-	{
-	Write-Output $_;
-		$_=""
-		exit 3
+if ($error.Count -gt 0) {
+    Write-Output $_;
+    $_=""
+    exit 3
 	}
-elseif ($alarm -ge 2){
+elseif ($alarm -ge 2) {
 	write-host $output
 	exit 2
 	}
